@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+  
+  url-shortener-service:
+    build: ./url-shortener-service
+    container_name: url-shortener-service
+    restart: always
+    depends_on:
+      - redis
+    environment:
+      DATABASE_URL: mongodb+srv://abhay:abhay@cluster0.qcmys.mongodb.net/shortener?retryWrites=true&w=majority&appName=Cluster0
+      REDIS_URL: redis://redis:6379
+  
+  url-redirection-service:
+    build: ./url-redirection-service
+    container_name: url-redirection-service
+    restart: always
+    depends_on:
+      - redis
+    environment:
+      DATABASE_URL: mongodb+srv://abhay:abhay@cluster0.qcmys.mongodb.net/shortener?retryWrites=true&w=majority&appName=Cluster0
+      REDIS_URL: redis://redis:6379
+    
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - url-shortener-service
+      - url-redirection-service
