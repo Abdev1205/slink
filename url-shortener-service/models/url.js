@@ -9,7 +9,8 @@ const schema = new mongoose.Schema({
     // required: true
   },
   createdAt: { type: Date, default: Date.now },
-})
+  visitCount: { type: Number, default: 0 },
+});
 
 const Url = mongoose.model('Url', schema);
 export default Url;

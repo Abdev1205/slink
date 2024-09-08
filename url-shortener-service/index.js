@@ -4,6 +4,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectDb from "./db/connect.js";
 import urlRoutes from "./api/v1/url/index.js"
+import authRoutes from "./api/v1/auth/index.js"
+import session from 'express-session';
 
 
 const app = express();
@@ -15,9 +17,16 @@ app.use(
     credentials: true,
   })
 );
-app.use(cookieParser());
 app.use(express.json());
-app.use('/api/shorten', urlRoutes);
+app.use(cookieParser())
+app.use(session({
+  resave: true,
+  saveUninitialized: true,
+  secret: "abhaymishra",
+  cookie: { maxAge: 3600000 * 24 }
+}))
+app.use('/api/shorten/url', urlRoutes);
+app.use('/api/shorten/auth', authRoutes);
 
 // console.log(process.env.Frontend_URL)
 

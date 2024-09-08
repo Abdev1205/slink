@@ -4,6 +4,8 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectDb from "./db/connect.js";
 import urlRoutes from "./api/v1/url/index.js"
+import { CronJob } from 'cron';
+import { VisitCountUpdation } from "./utils/cron-jobs/VisitCountUpdation.js";
 
 
 const app = express();
@@ -41,3 +43,32 @@ const databaseConnection = async () => {
   }
 }
 databaseConnection();
+
+
+// cron jobs 
+
+const testCronJob = new CronJob(
+  '* * * * * *', // cronTime
+  function () {
+    console.log('we are testing the cron job');
+  }, // onTick
+  null, // onComplete
+  false, // start
+  'America/Los_Angeles' // timeZone
+);
+
+// testCronJob.start();
+
+const updateVisitCountJob = new CronJob(
+  '*/5 * * * *',
+  function () {
+    VisitCountUpdation();
+  },
+  null, // onComplete
+  true, // start
+  'America/Los_Angeles' // timeZone
+);
+
+updateVisitCountJob.start();
+
+

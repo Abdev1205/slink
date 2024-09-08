@@ -1,101 +1,84 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import PrimaryButton from '@/components/button/PrimaryButton'
+import LandingNavbar from '@/components/navbar/LandingNavbar'
+import ToggleSwitch from '@/components/toggleSwitch/ToggleSwitch'
+import useSession from '@/hooks/useSession'
+import { CircleBg, CubesBg, DotBg, Grillbg, HeroLinkList } from '@/public/assetsManager'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+import React, { Suspense, useState } from 'react'
+import { FiLink } from "react-icons/fi";
+import { RxQuestionMarkCircled } from "react-icons/rx";
+import { Tooltip } from 'react-tooltip'
+
+
+
+
+const LandingPage = () => {
+  const [guestSwitchOn, setGuestSwitchOn] = useState(true);
+  const router = useRouter();
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col items-center row-start-2 gap-8 sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
 
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now with Abhay
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className='relative flex flex-col overflow-clip w-[100%] h-[100vh] bg-[#0B101B]  ' >
+      <Image
+        src={Grillbg}
+        alt='bg'
+        className='absolute w-full opacity-[.35] z-[15] no-select '
+      />
+      <Image
+        src={CubesBg}
+        alt='bg'
+        className=' absolute w-full opacity-[.55]  z-[5] no-select '
+      />
+      <Image
+        src={CircleBg}
+        alt='bg'
+        className=' absolute w-full  z-[5] no-select '
+      />
+      {/* <Image
+        src={DotBg}
+        alt='bg'
+        className=' absolute w-full opacity-15  z-[3] '
+      /> */}
+      <div className=' z-[50] px-[4rem]  ' >
+        <LandingNavbar />
+      </div>
+
+      <div className=' flex flex-col justify-center h-[calc(100vh-20rem)]  items-center w-[100%] z-[50]  ' >
+        <h2 className='font-[900] text-[3.4rem]  hero-heading w-fit font-montserrat ' >Shorten Your Loooong Links :)</h2>
+        <p className=' text-[#C9CED6] w-[30rem] text-center ' >Slink is an efficient and easy-to-use URL shortening service that streamlines your online experience.</p>
+
+        <form className=' rounded-full mt-[3rem] w-[40rem] h-[4rem] border-2 border-[#353C4A] flex justify-between gap-[.5rem] text-white  items-center bg-[#181E29] pl-[1.5rem] pr-[1rem] ' >
+          <FiLink className=' text-[#C9CED6] text-[1.4rem] ' />
+          <input type="text" placeholder=' Enter Your Link here ' className='w-full h-full px-[.8rem] bg-transparent border-none outline-none text-[#C9CED6] ' />
+          <PrimaryButton text='Shorten Now!' type='submit' styles=' text-nowrap ' />
+        </form>
+        <div className='flex text-[#C9CED6] gap-[.5rem] items-center mt-[.5rem]  ' >
+          <p>Your are not logged in so link will be stored publicly</p>
+          <ToggleSwitch switchOn={guestSwitchOn} setSwitchOn={setGuestSwitchOn} label={`Guest Mode ${guestSwitchOn ? "On" : "Off"}`} />
+          <Tooltip id='guest-mode-tooltip' style={{ width: "15rem" }} />
+          <RxQuestionMarkCircled data-tooltip-id="guest-mode-tooltip" data-tooltip-content="Your link will stored publicly and will active for 24 hrs. If you want to use the slink effciently so just login with google " data-tooltip-variant="dark" />
         </div>
-      </main>
-      <footer className="flex flex-wrap items-center justify-center row-start-3 gap-6">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+      </div>
+
+      <Suspense fallback={
+        <div className='absolute bottom-0 z-[50] px-[4rem] bg-[#0E131E]    ' >
+
+        </div>
+      } >
+        <div className=' absolute bottom-0 z-[50] px-[4rem]    ' >
           <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+            src={HeroLinkList}
+            alt='hero-link-list'
+            className=' mb-[-12rem] no-select '
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+      </Suspense>
+
     </div>
-  );
+  )
 }
+
+export default LandingPage

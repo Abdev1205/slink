@@ -11,6 +11,10 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        montserrat: ["var(--font-montserrat)"],
+        openSans: ["var(--font-open-sans)"],
+      },
     },
   },
   plugins: [],

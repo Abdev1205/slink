@@ -4,6 +4,14 @@ import generateShortUrl from "../../utils/generateShortUrl.js";
 export const shortUrl = async (req, res, next) => {
   const { url } = req.body;
 
+  if (!url) {
+    return res.status(400).json({ message: "URL is required" });
+  }
+
+  if (!/^https?:\/\//i.test(url)) {
+    return res.status(400).json({ message: "Invalid URL format" });
+  }
+
   try {
     const existingUrl = await Url.findOne({ originalUrl: url });
     if (existingUrl) {
