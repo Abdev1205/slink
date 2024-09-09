@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FcGoogle } from "react-icons/fc";
 import { ToastContainer, toast } from 'react-toastify';
 import Link from 'next/link';
@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import TextFields from '@/components/input/InputFields/TextFields';
 import api from '@/utils/axios';
+import ToggleSwitch from '@/components/toggleSwitch/ToggleSwitch';
 
 const Login = () => {
   const router = useRouter();
@@ -15,6 +16,22 @@ const Login = () => {
   const [pass, setPass] = useState();
   console.log(email, "email")
   console.log(pass, "pass")
+  const [demoSwitchOn, setDemoSwitchOn] = useState(false);
+
+  const handleDemoCheckedIn = () => {
+    setEmail(process.env.NEXT_PUBLIC_DEMO_EMAIL_ID);
+    setPass(process.env.NEXT_PUBLIC_DEMO_PASSWORD);
+  }
+
+  useEffect(() => {
+    if (demoSwitchOn) {
+      handleDemoCheckedIn();
+    }
+    else {
+      setEmail("")
+      setPass("")
+    }
+  }, [demoSwitchOn])
 
   const handleUserLogin = async (e) => {
     try {
@@ -66,6 +83,16 @@ const Login = () => {
       <div className='w-[100%] h-full mt-[-4rem] ' >
         <div className=' w-[100%] h-[100vh] flex justify-center items-center   ' >
           <div className=' flex flex-col w-[30rem]   bg-[#181E29]   border-[1px] border-[#353C4A] rounded-md px-[2.5rem] py-[2.5rem] ' >
+            <div className=' mb-[1rem] ' >
+
+              <ToggleSwitch
+                switchOn={demoSwitchOn}
+                setSwitchOn={setDemoSwitchOn}
+                disabled={false}
+                label={`Use Demo Credentials Mode ${demoSwitchOn ? "On" : "Off"} `}
+                labelStyle={` text-white text-opacity-60 `}
+              />
+            </div>
 
 
             <form onSubmit={(e) => handleUserLogin(e)} className=' flex flex-col gap-[1rem]   '  >
@@ -96,7 +123,7 @@ const Login = () => {
               </div>
 
             </form>
-            <button onClick={handleGoogleLogin} className=' active:scale-95 duration-300 bg-[#eff1f7b3] flex justify-center items-center gap-[.5rem] px-[.5rem] py-[.5rem] rounded-md font-nunito font-[400] text-[1.02rem] text-black mt-[2rem]   ' >
+            <button onClick={handleGoogleLogin} className=' active:scale-95 duration-300 hover:bg-white bg-[#eff1f7b3] flex justify-center items-center gap-[.5rem] px-[.5rem] py-[.5rem] rounded-md font-nunito font-[400] text-[1.02rem] text-black mt-[2rem]   ' >
               <FcGoogle className=' text-[1.2rem] ' />
               Login with Google
             </button>

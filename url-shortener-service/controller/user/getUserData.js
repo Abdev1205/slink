@@ -2,6 +2,7 @@ import User from "../../models/user.js";
 
 const getUserData = async (req, res, next) => {
   const userId = req.id;
+  // console.log("I am in the user", userId);
   try {
     let user = await User.findById(userId);
 

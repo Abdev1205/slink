@@ -1,10 +1,12 @@
 'use client'
 
 import PrimaryButton from '@/components/button/PrimaryButton'
+import ShareLink from '@/components/modals/ShareLink'
 import LandingNavbar from '@/components/navbar/LandingNavbar'
 import ToggleSwitch from '@/components/toggleSwitch/ToggleSwitch'
 import useSession from '@/hooks/useSession'
 import { CircleBg, CubesBg, DotBg, Grillbg, HeroLinkList } from '@/public/assetsManager'
+import api from '@/utils/axios'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { Suspense, useState } from 'react'
@@ -15,9 +17,35 @@ import { Tooltip } from 'react-tooltip'
 
 
 
+
 const LandingPage = () => {
   const [guestSwitchOn, setGuestSwitchOn] = useState(true);
+  const { loading, user, loggedIn } = useSession();
+  const [shareLinkOpen, setShareLinkOpen] = useState(false);
   const router = useRouter();
+  const [originalUrl, setOriginalUrl] = useState("");
+  const [shortLink, setShortLink] = useState("");
+
+  const handleOriginalUrl = (e) => {
+    setOriginalUrl(e.target.value);
+  }
+
+  const handleGenerateShortLink = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await api.post(`/api/shorten/url`, { url: originalUrl, guest: !loggedIn }, { withCredentials: true });
+      if (res.data?.shortenedUrl) {
+        setShortLink(res.data?.shortenedUrl);
+        setShareLinkOpen(true);
+
+      }
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+
+    // setShareLinkOpen(true);
+  }
 
   return (
 
@@ -42,6 +70,12 @@ const LandingPage = () => {
         alt='bg'
         className=' absolute w-full opacity-15  z-[3] '
       /> */}
+      <ShareLink
+        visible={shareLinkOpen}
+        onClose={() => setShareLinkOpen(false)}
+        focusMode={true}
+        url={shortLink}
+      />
       <div className=' z-[50] px-[4rem]  ' >
         <LandingNavbar />
       </div>
@@ -50,14 +84,14 @@ const LandingPage = () => {
         <h2 className='font-[900] text-[3.4rem]  hero-heading w-fit font-montserrat ' >Shorten Your Loooong Links :)</h2>
         <p className=' text-[#C9CED6] w-[30rem] text-center ' >Slink is an efficient and easy-to-use URL shortening service that streamlines your online experience.</p>
 
-        <form className=' rounded-full mt-[3rem] w-[40rem] h-[4rem] border-2 border-[#353C4A] flex justify-between gap-[.5rem] text-white  items-center bg-[#181E29] pl-[1.5rem] pr-[1rem] ' >
+        <form onSubmit={(e) => handleGenerateShortLink(e)} className=' rounded-full mt-[3rem] w-[40rem] h-[4rem] border-2 border-[#353C4A] flex justify-between gap-[.5rem] text-white  items-center bg-[#181E29] pl-[1.5rem] pr-[1rem] ' >
           <FiLink className=' text-[#C9CED6] text-[1.4rem] ' />
-          <input type="text" placeholder=' Enter Your Link here ' className='w-full h-full px-[.8rem] bg-transparent border-none outline-none text-[#C9CED6] ' />
+          <input type="text" placeholder=' Enter Your Link here ' value={originalUrl} onChange={(e) => handleOriginalUrl(e)} className='w-full h-full px-[.8rem] bg-transparent border-none outline-none text-[#C9CED6] ' />
           <PrimaryButton text='Shorten Now!' type='submit' styles=' text-nowrap ' />
         </form>
-        <div className='flex text-[#C9CED6] gap-[.5rem] items-center mt-[.5rem]  ' >
+        <div className={` ${!loading && !user ? " flex " : "hidden"}  text-[#C9CED6] gap-[.5rem] items-center mt-[.5rem]  `} >
           <p>Your are not logged in so link will be stored publicly</p>
-          <ToggleSwitch switchOn={guestSwitchOn} setSwitchOn={setGuestSwitchOn} label={`Guest Mode ${guestSwitchOn ? "On" : "Off"}`} />
+          <ToggleSwitch switchOn={guestSwitchOn} setSwitchOn={setGuestSwitchOn} disabled={true} label={`Guest Mode ${guestSwitchOn ? "On" : "Off"}`} labelStyle={` text-[#C9CED6]  `} />
           <Tooltip id='guest-mode-tooltip' style={{ width: "15rem" }} />
           <RxQuestionMarkCircled data-tooltip-id="guest-mode-tooltip" data-tooltip-content="Your link will stored publicly and will active for 24 hrs. If you want to use the slink effciently so just login with google " data-tooltip-variant="dark" />
         </div>

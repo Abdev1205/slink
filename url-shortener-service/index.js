@@ -6,7 +6,8 @@ import connectDb from "./db/connect.js";
 import urlRoutes from "./api/v1/url/index.js"
 import authRoutes from "./api/v1/auth/index.js"
 import session from 'express-session';
-
+import { CronJob } from 'cron';
+import delteGuestExpiredLinks from "./utils/cron-jobs/DeleteGuestExpiredLinks.js";
 
 const app = express();
 
@@ -50,3 +51,16 @@ const databaseConnection = async () => {
   }
 }
 databaseConnection();
+
+
+const delteGuestExpiredLinksJob = new CronJob(
+  '0 0 * * *',
+  function () {
+    delteGuestExpiredLinks()
+  },
+  null, // onComplete
+  true, // start
+  'America/Los_Angeles' // timeZone
+)
+
+delteGuestExpiredLinksJob.start();

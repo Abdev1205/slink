@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import api from '@/utils/axios';
 import TextFields from '@/components/input/InputFields/TextFields';
+import { ApiUrl } from '@/utils/BaseUrl';
 
 const Register = () => {
   const router = useRouter()
@@ -131,7 +132,7 @@ const Register = () => {
               </div>
 
             </form>
-            <button onClick={handleGoogleLogin} className=' active:scale-95 duration-300 bg-[#eff1f7b3] flex justify-center items-center gap-[.5rem] px-[.5rem] py-[.5rem] rounded-md font-nunito font-[400] text-[1.02rem] text-black mt-[2rem]   ' >
+            <button onClick={handleGoogleLogin} className=' active:scale-95 duration-300 bg-[#eff1f7b3] hover:bg-white flex justify-center items-center gap-[.5rem] px-[.5rem] py-[.5rem] rounded-md font-nunito font-[400] text-[1.02rem] text-black mt-[2rem]   ' >
               <FcGoogle className=' text-[1.2rem] ' />
               Login with Google
             </button>

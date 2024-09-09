@@ -5,12 +5,12 @@ const verifyToken = async (req, res, next) => {
   // console.log("cookies value are : ", req.cookies)
   // console.log("tokens value are ", token)
   if (!token) {
-    return res.status(403).redirect(process.env.FRONTEND_URL);
+    return res.status(203).json({ message: "No Token Found", auth: false });
   }
 
   jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, decoded) => {
     if (err) {
-      return res.status(400).json({ message: "Invalid Token" });
+      return res.status(203).json({ message: "Invalid Token", auth: false });
     }
     // console.log("user id from jwt decode", decoded.id, decoded);
     req.id = decoded.id;

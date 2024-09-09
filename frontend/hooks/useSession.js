@@ -24,7 +24,7 @@ const useSession = () => {
         }
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching user:', error);
+        // console.error('Error fetching user:', error);
         setLoading(false);
         setLoggedIn(false);
       }

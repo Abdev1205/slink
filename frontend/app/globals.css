@@ -29,3 +29,26 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.share-modal-shadow {
+  box-shadow: 0px 0px 77.8px 17px rgba(108, 114, 255, 0.41);
+}
+
+.share-modal {
+  position: relative;
+  /* Make sure the modal is positioned relative to allow the pseudo-element */
+}
+
+.share-modal::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: -60px;
+  right: -60px;
+  bottom: -60px;
+  background: linear-gradient(90deg, #144EE3 -15.73%, #F42A8B 115.73%);
+  z-index: -1;
+  filter: blur(150px);
+  opacity: 0.6;
+  border-radius: 1px;
+}

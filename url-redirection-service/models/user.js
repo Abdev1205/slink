@@ -6,19 +6,22 @@ const userSchema = new mongoose.Schema({
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   password: {
     type: String,
   },
-  profilePicture:
-  {
-    type: String
+  profilePicture: {
+    type: String,
+  },
+  joinedAt: {
+    type: Date,
+    default: Date.now,  // Sets the default value to the current date and time when the user is created
   },
 });
 

@@ -1,16 +1,17 @@
 import React from 'react';
 
-const ToggleSwitch = ({ switchOn = true, setSwitchOn = () => { }, label = "Switch", ...props }) => {
+
+const ToggleSwitch = ({ switchOn = true, setSwitchOn = () => { }, label = "Switch", disabled = false, labelStyle = "" }) => {
   return (
     <label className="relative inline-flex items-center cursor-pointer">
       <input
         type="checkbox"
         checked={switchOn}
-        onChange={() => setSwitchOn(!switchOn)}
+        onChange={disabled ? () => setSwitchOn(true) : () => setSwitchOn(!switchOn)}
         className="sr-only peer"
       />
       <div
-        className={`w-9 h-5 rounded-full flex items-center transition-colors duration-300 ease-in-out ${switchOn ? 'bg-gradient-to-r from-[#144EE3] to-[#F42A8B]' : 'bg-gray-200'
+        className={`w-9 h-5 rounded-full flex items-center transition-colors duration-300 ease-in-out ${switchOn ? 'bg-gradient-to-r from-[#144EE3] to-[#F42A8B]' : 'bg-gray-500'
           }`}
       >
         <div
@@ -18,7 +19,7 @@ const ToggleSwitch = ({ switchOn = true, setSwitchOn = () => { }, label = "Switc
             }`}
         />
       </div>
-      <span className="text-sm font-medium text-gray-900 ms-3 dark:text-gray-300">{label}</span>
+      <span className={`  ms-3 ${labelStyle} `}>{label}</span>
     </label>
   );
 };
