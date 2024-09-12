@@ -1,26 +1,54 @@
 import redis from "../../redis/index.js";
 import Url from "../../models/url.js";
 
-// A function to periodically flush visit counts from Redis to MongoDB
 export const VisitCountUpdation = async () => {
   try {
-    // Getting all keys matching visit counts
-    const keys = await redis.keys("visitCount:*");
+    // Getting all keys related to visit counts and device counts
+    const visitCountKeys = await redis.keys("visitCount:*");
+    const deviceVisitKeys = await redis.keys("deviceVisitCount:*");
 
-    for (const key of keys) {
+    // Process general visit counts
+    for (const key of visitCountKeys) {
       const shortUrl = key.split(":")[1];
       const visitCount = await redis.get(key);
 
-      // Updating the visit count in the MongoDB
-      await Url.updateOne({ shortenedUrl: shortUrl }, { $inc: { visitCount: parseInt(visitCount) } });
+      // Update the total visit count in MongoDB
+      await Url.updateOne(
+        { shortenedUrl: shortUrl },
+        {
+          $inc: {
+            visitCount: parseInt(visitCount),
+            totalVisitCount: parseInt(visitCount),
+          },
+        }
+      );
 
-      // Removing the key from Redis after updating
+      // Remove the key from Redis after updating
       await redis.del(key);
     }
-    console.log("Visit counts flushed to DB");
+
+    // Process device-specific visit counts (mobile, desktop, tablet)
+    for (const key of deviceVisitKeys) {
+      const [_, shortUrl, deviceType] = key.split(":"); // Extract shortUrl and deviceType from Redis key
+      const deviceVisitCount = await redis.get(key);
+
+      if (deviceVisitCount) {
+        // Increment the device type visit count in MongoDB
+        await Url.updateOne(
+          { shortenedUrl: shortUrl },
+          { $inc: { [`deviceStats.${deviceType}`]: parseInt(deviceVisitCount) } }
+        );
+
+        // Remove the device count key from Redis after updating
+        await redis.del(key);
+      }
+    }
+
+    console.log("Visit counts and device counts successfully updated and flushed to DB");
   } catch (error) {
     console.error("Error flushing visit counts: ", error);
   }
 };
+
 
 

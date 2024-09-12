@@ -6,6 +6,7 @@ import connectDb from "./db/connect.js";
 import urlRoutes from "./api/v1/url/index.js"
 import { CronJob } from 'cron';
 import { VisitCountUpdation } from "./utils/cron-jobs/VisitCountUpdation.js";
+import { DailyStatsUpdation } from "./utils/cron-jobs/DailyStatsUpdation.js";
 
 
 const app = express();
@@ -60,7 +61,7 @@ const testCronJob = new CronJob(
 // testCronJob.start();
 
 const updateVisitCountJob = new CronJob(
-  '*/5 * * * *',
+  '*/1 * * * *',
   function () {
     VisitCountUpdation();
   },
@@ -70,5 +71,29 @@ const updateVisitCountJob = new CronJob(
 );
 
 updateVisitCountJob.start();
+
+const dailyStatsUpdationJob = new CronJob(
+  '0 0 * * *',
+  function () {
+    DailyStatsUpdation();
+  },
+  null, // onComplete
+  true, // start
+  'America/Los_Angeles' // timeZone
+)
+
+dailyStatsUpdationJob.start();
+
+// const dailyStatsUpdationJob = new CronJob(
+//   '*/1 * * * *',
+//   function () {
+//     DailyStatsUpdation();
+//   },
+//   null, // onComplete
+//   true, // start
+//   'America/Los_Angeles' // timeZone
+// )
+
+// dailyStatsUpdationJob.start();
 
 

@@ -52,3 +52,28 @@ body {
   opacity: 0.6;
   border-radius: 1px;
 }
+
+.fir-edit-bg {
+  background: rgba(140, 140, 154, 0.12);
+  box-shadow: 0px 0px 13.6px 0px rgba(52, 67, 198, 0.46) inset;
+}
+
+.fir-delete-bg {
+  background: rgba(205, 29, 50, 0.25);
+  box-shadow: 0px 0px 5.4px 0px rgba(205, 29, 50, 0.76) inset;
+}
+
+.active-status {
+  background: rgba(40, 86, 48, 0.28);
+  box-shadow: 0px 0px 9.4px 2px rgba(106, 196, 120, 0.43) inset;
+}
+
+.inactive-status {
+  background: rgba(132, 116, 66, 0.234);
+  box-shadow: 0px 0px 9.4px 2px rgba(183, 176, 81, 0.43) inset;
+}
+
+.expired-status {
+  background: rgba(104, 71, 54, 0.28);
+  box-shadow: 0px 0px 9.4px 2px rgba(187, 96, 46, 0.43) inset;
+}

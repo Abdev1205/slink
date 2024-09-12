@@ -71,7 +71,7 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      window.location.href = `${ApiUrl}/api/shorten/auth/google`;
+      window.location.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/shorten/auth/google`;
     } catch (error) {
       console.error('Error during Google login:', error);
     }

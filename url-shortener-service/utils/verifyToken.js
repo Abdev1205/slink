@@ -5,6 +5,7 @@ const verifyToken = async (req, res, next) => {
   // console.log("cookies value are : ", req.cookies)
   // console.log("tokens value are ", token)
   if (!token) {
+    console.log("Helo no token found")
     return res.status(203).json({ message: "No Token Found", auth: false });
   }
 

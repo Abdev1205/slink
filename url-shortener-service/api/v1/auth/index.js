@@ -10,6 +10,9 @@ const router = Router();
 
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.get('/', (req, res) => {
+  res.send('welcom to Auth Service');
+})
 
 router.get('/google/callback', passport.authenticate('google', { failureRedirect: `${process.env.FRONTEND_URL}/` }), async (req, res) => {
   const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET_KEY, { expiresIn: "7day" });
