@@ -9,6 +9,10 @@ import InstagramImage from './assets/social/instagram.png'
 import LinkedinImage from "./assets/social/linkedin.png"
 import TwitterImage from "./assets/social/twitter.png"
 import WhatsappImage from "./assets/social/whatsapp.png"
+import ActiveNarbarImage from "./assets/dashboard/active-navbar.svg"
+import NoStastsFoundImage from "./assets/dashboard/no-stats-found.svg"
+import UrlErrorImage from "./assets/dashboard/url-error.svg"
+import deleteAnimationFile from "./assets/animation/delete.json"
 
 export {
   SlinkLogoImage,
@@ -22,4 +26,8 @@ export {
   LinkedinImage,
   TwitterImage,
   WhatsappImage,
+  ActiveNarbarImage,
+  NoStastsFoundImage,
+  UrlErrorImage,
+  deleteAnimationFile
 }

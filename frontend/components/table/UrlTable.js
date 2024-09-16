@@ -4,14 +4,20 @@ import Link from 'next/link';
 import React, { useState } from 'react'
 import { MdEdit, MdDeleteForever, MdOutlineContentCopy } from "react-icons/md";
 import UpdateLinks from '../modals/UpdateLinks';
+import DeleteLink from '../modals/DeleteLink';
+import UrlCards from '../cards/UrlCards';
 
 
 
-const UrlTable = ({ urls }) => {
+const UrlTable = ({ urls, callback }) => {
   const [isCopied, setIsCopied] = useState(-1);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [updateUrlId, setUpdateUrlId] = useState(null);
-  console.log("url in table", urls)
+  const [deleteUrlId, setDeleteUrlId] = useState(null);
+
+  console.log("urls: " + JSON.stringify(urls))
+
   const copyToClipboard = (link, index) => {
     navigator.clipboard.writeText(link);
     setIsCopied(index);
@@ -28,11 +34,18 @@ const UrlTable = ({ urls }) => {
       <UpdateLinks
         visible={showUpdateModal}
         onClose={() => setShowUpdateModal(false)}
-        callback={() => { }}
+        callback={() => callback()}
         focusMode={true}
         urlId={updateUrlId}
       />
-      <table className="min-w-full table-auto -collapse">
+      <DeleteLink
+        visible={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        callback={() => callback()}
+        focusMode={true}
+        urlId={deleteUrlId}
+      />
+      <table className="hidden table-auto xsm_desktop:w-full xsm_desktop:table -collapse">
         <thead>
           <tr className=" bg-[#181E29] text-[#C9CED6] text-left ">
             <th className="px-4 py-[1rem] font-openSans font-[500] text-[.95rem] rounded-tl-lg  ">Shortened URL</th>
@@ -66,8 +79,8 @@ const UrlTable = ({ urls }) => {
                     )}
                   </div>
                 </td>
-                <td className="px-4 py-[.9rem] ">
-                  <Link href={url.originalUrl} className="opacity-50">
+                <td className="px-4 py-[.9rem] max-w-[25rem] flex-shrink  ">
+                  <Link href={url.originalUrl} className="opacity-50 line-clamp-1 ">
                     {url.originalUrl}
                   </Link>
                 </td>
@@ -91,7 +104,10 @@ const UrlTable = ({ urls }) => {
                     <MdEdit className=" text-[1rem] " />
                   </button>
                   <button
-
+                    onClick={() => {
+                      setDeleteUrlId(url._id);
+                      setShowDeleteModal(true);
+                    }}
                     className=" text-[#FD001EA8] rounded-full fir-delete-bg  flex size-[1.9rem] justify-center items-center  "
                   >
                     <MdDeleteForever className=" text-[1.02rem] " />
@@ -102,11 +118,24 @@ const UrlTable = ({ urls }) => {
             ))
           ) : (
             <tr>
-              <td colSpan="5" className="px-4 py-[.9rem] text-center">No URLs found</td>
+              <td colSpan="6" className="px-4 py-[.9rem] text-white text-center">No URLs found</td>
             </tr>
           )}
         </tbody>
       </table>
+
+      <div className='xsm_desktop:hidden flex w-full flex-wrap gap-[2rem] ' >
+        {
+          urls.length > 0 ? (
+            urls.map((data, index) => {
+              return (
+                <UrlCards data={data} key={index} setUpdateUrlId={setUpdateUrlId} setShowUpdateModal={setShowUpdateModal} setDeleteUrlId={setDeleteUrlId} setShowDeleteModal={setShowDeleteModal} />
+              )
+            })
+          ) : null
+        }
+      </div>
+
     </div>
   );
 };

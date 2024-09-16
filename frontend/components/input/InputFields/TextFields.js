@@ -1,6 +1,6 @@
 import React from "react";
 
-const TextFields = ({ value, setValue, label, placeholder, required, disabled = false, type = "text", name = "" }) => {
+const TextFields = ({ value, setValue, label, placeholder, required, disabled = false, type = "text", name = "", error = "" }) => {
   return (
     <div className=" flex flex-col gap-[.5rem] w-[100%] text-textSecondary text-opacity-50  ">
       <label htmlFor={label} className="text-white text-opacity-[.7] " >
@@ -15,6 +15,11 @@ const TextFields = ({ value, setValue, label, placeholder, required, disabled = 
         className={`bg-[#8C8C9A1F] focus:bg-[#5956eb24] text-white text-opacity-60 px-[1rem] py-[.5rem] rounded-md outline-none focus:outline-[#e639b858] font-nunito ${disabled ? " cursor-not-allowed " : ""} `}
         placeholder={placeholder}
       />
+      {
+        error && (
+          <p className="text-xs text-red-600 text-opacity-100">{error}</p>
+        )
+      }
     </div>
   );
 };

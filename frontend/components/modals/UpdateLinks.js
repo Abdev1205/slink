@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState } from 'react'
 import Modal from '.'
 import TextFields from '../input/InputFields/TextFields'
@@ -5,6 +7,7 @@ import api from '@/utils/axios';
 import { FaLink, FaLinkSlash } from 'react-icons/fa6';
 import { MdClose, MdOutlineLinkOff } from 'react-icons/md';
 import PrimaryButton from '../button/PrimaryButton';
+import { toast } from 'react-toastify';
 
 
 const UpdateLinks = ({ visible, onClose = () => { }, callback = () => { }, focusMode = false, urlId = "" }) => {
@@ -14,7 +17,6 @@ const UpdateLinks = ({ visible, onClose = () => { }, callback = () => { }, focus
   const [error, setError] = useState(null);
   const [status, setStatus] = useState(null);
 
-  console.log("urlId", urlId);
   const getUrlData = async () => {
     try {
       const res = await api.get(`/api/shorten/url/${urlId}`, { withCredentials: true });
@@ -26,6 +28,33 @@ const UpdateLinks = ({ visible, onClose = () => { }, callback = () => { }, focus
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const handleUpdateLinks = async () => {
+
+    // now we have updted out data and now we will just call the api
+    const data = {
+      newOriginalUrl: originalUrl,
+      newShortenedUrl: shortUrl,
+      newStatus: status,
+    }
+    try {
+      const res = await api.post(`/api/shorten/url/${urlId}/update`, data, { withCredentials: true })
+      toast.success(res?.data?.message);
+      onClose();
+      callback()
+      setError("")
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err?.response?.data?.message);
+        toast.error(err?.response?.data?.message)
+      } else {
+        // Generic error for non-API issues like network failures
+        toast.error("An unexpected error occurred. Please try again later.")
+        setError("An unexpected error occurred. Please try again later.");
+      }
+    }
+
   }
 
   useEffect(() => {
@@ -42,9 +71,10 @@ const UpdateLinks = ({ visible, onClose = () => { }, callback = () => { }, focus
           <MdClose />
 
         </div>
-        <div className={`bg-[#181E29] w-[calc(100%-.06rem)]   h-[calc(100%-.1rem)] rounded-md px-[2.5rem] py-[2.5rem] flex flex-col items-center justify-center gap-[2.5rem]`} >
+        <div className={`bg-[#181E29] w-[calc(100%-.1rem)] relative   h-[calc(100%-.1rem)] rounded-md px-[2.5rem] py-[2.5rem] flex flex-col items-center justify-center gap-[2.5rem]`} >
           <TextFields
             value={originalUrl}
+            setValue={setOriginalUrl}
             label='Original URL'
             placeholder='Original URL'
             required={true}
@@ -52,11 +82,17 @@ const UpdateLinks = ({ visible, onClose = () => { }, callback = () => { }, focus
           />
           <TextFields
             value={shortUrl}
+            setValue={setShortUrl}
             label='Shortened URL'
             placeholder='Shortened URL'
             required={true}
             type='text'
           />
+
+          {
+            error && <div className='absolute bottom-[.5rem] text-center text-red-500'>{error}</div>
+          }
+
           <div className=' flex gap-[1rem] w-full ' >
 
             <div onClick={() => setStatus('active')} className={` ${status == 'active' ? " bg-[#1eb03648]  border-green-500 scale-[1.05] " : "active-status border-transparent  "} duration-300 border-[1px] flex relative gap-[.5rem]   px-[.8rem] py-[.2rem] justify-between items-center capitalize text-green-500 rounded-md cursor-pointer `}>
@@ -84,7 +120,7 @@ const UpdateLinks = ({ visible, onClose = () => { }, callback = () => { }, focus
 
           <div className='flex justify-center w-full ' >
 
-            <PrimaryButton text='Update Url' exec={() => { }} styles={` w-[10rem] rounded-full  text-white/60 roun   `} />
+            <PrimaryButton text='Update Url' exec={() => handleUpdateLinks()} styles={` w-[10rem] rounded-full  text-white/60 roun   `} />
           </div>
 
         </div>

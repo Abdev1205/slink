@@ -27,7 +27,7 @@ const DahboardPage = () => {
     <div>
       <div className=' w-[100%] flex justify-center   ' >
         <div className=' w-[90%] mt-[5rem]   ' >
-          <UrlTable urls={urlData} />
+          <UrlTable urls={urlData} callback={() => geturl()} />
         </div>
       </div>
     </div>

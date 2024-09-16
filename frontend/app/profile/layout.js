@@ -24,7 +24,7 @@ const ProfileLayout = ({ children }) => {
           alt='bg'
           className=' absolute w-full  z-[5] no-select '
         />
-        <div className=' z-[55] px-[4rem]  ' >
+        <div className=' z-[55] lg:px-[4rem] sm:px-[2rem] px-[1rem]  ' >
           <DashboardNavbar />
         </div>
         <div className=' z-[50] ' >

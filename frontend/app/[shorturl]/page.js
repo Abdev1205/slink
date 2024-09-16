@@ -2,6 +2,10 @@
 
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+import { CircleBg, CubesBg, Grillbg, UrlErrorImage } from '@/public/assetsManager'
+import PrimaryButton from '@/components/button/PrimaryButton'
+import DashboardNavbar from '@/components/navbar/DashboardNavbar'
 
 const ShortUrlPage = ({ params }) => {
   const router = useRouter()
@@ -47,11 +51,39 @@ const ShortUrlPage = ({ params }) => {
   return (
     <div>
       {error ? (
-        <div>
-          <p>{error}</p>
-          {/* Optionally add a button to redirect the user to a different page */}
-          <button onClick={() => router.push('/')}>Go to Home</button>
+        <div className='relative flex flex-col overflow-clip w-[100%] h-[100vh] bg-[#0B101B] ' >
+          <Image
+            src={Grillbg}
+            alt='bg'
+            className='absolute w-full opacity-[.35] z-[15] no-select '
+          />
+          <Image
+            src={CubesBg}
+            alt='bg'
+            className=' absolute w-full opacity-[.55]  z-[5] no-select '
+          />
+          <Image
+            src={CircleBg}
+            alt='bg'
+            className=' absolute w-full  z-[5] no-select '
+          />
+          <div className=' z-[55] px-[4rem]  ' >
+            <DashboardNavbar />
+          </div>
+          <div className=' z-[50] flex w-full items-center justify-center h-[calc(100vh-8rem)] ' >
+            <div className='flex flex-col items-center gap-[2rem] w-fit ' >
+              <Image
+                src={UrlErrorImage}
+                alt='Url not found'
+                className='w-[20rem]'
+              />
+              <p className=' font-openSans text-[1.3rem] text-white/75  '>{error}</p>
+              {/* Optionally add a button to redirect the user to a different page */}
+              <PrimaryButton text='Go to Home' exec={() => router.push('/')} styles=' text-white ' />
+            </div>
+          </div>
         </div>
+
       ) : (
         <p>Redirecting...</p>
       )}

@@ -20,7 +20,7 @@ const Providers = ({ children }) => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="dark"
+        theme="light"
       />
     </>
   )

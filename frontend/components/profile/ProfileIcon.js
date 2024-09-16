@@ -52,7 +52,7 @@ const ProfileIcon = () => {
   return (
     <div className='relative flex items-center justify-center w-full '>
       <Image
-        src={user?.profilePicture}
+        src={user?.profilePicture || ""}
         width={100}
         height={100}
         className={` ${!user?.profilePicture ? " hidden " : ""}  mx-auto rounded-full w-[2.5rem] border-[1px] border-[#7a7c80] cursor-pointer`}

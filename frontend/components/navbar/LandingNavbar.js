@@ -42,8 +42,8 @@ const LandingNavbar = () => {
           <PrimaryButton text="Dashboard" styles=" text-white text-opacity-[10] " exec={() => router.push('/dashboard')} />
         ) : (
           <div className=" flex gap-[1.5rem] " >
-            <SecondaryButton text="Login" icon={<MdLogin />} exec={() => router.push('/login')} />
-            <PrimaryButton text="Register" styles=" text-white text-opacity-[10] " exec={() => router.push('/register')} />
+            <SecondaryButton text="Login" styles="phone:flex hidden" icon={<MdLogin />} exec={() => router.push('/login')} />
+            <PrimaryButton text="Register" styles=" text-white text-opacity-[10]  " exec={() => router.push('/register')} />
           </div>
 
         )

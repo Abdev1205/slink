@@ -4,6 +4,7 @@ import React from 'react'
 import Image from 'next/image'
 import AuthLayer from '@/Layers/AuthLayer'
 import DashboardNavbar from '@/components/navbar/DashboardNavbar'
+import DashboardSubNavbar from '@/components/navbar/DashboardSubNavbar'
 
 const DashBoardLayout = ({ children }) => {
   return (
@@ -24,10 +25,11 @@ const DashBoardLayout = ({ children }) => {
           alt='bg'
           className=' absolute w-full  z-[5] no-select '
         />
-        <div className=' z-[55] px-[4rem]  ' >
+        <div className=' z-[55] lg:px-[4rem] sm:px-[2rem] px-[1rem]  ' >
           <DashboardNavbar />
         </div>
         <div className=' z-[50] ' >
+          <DashboardSubNavbar />
 
           {children}
         </div>

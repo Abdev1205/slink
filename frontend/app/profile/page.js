@@ -28,7 +28,7 @@ const ProfilePage = () => {
 
         <div className='relative flex items-center justify-between mt-[-2.5rem] ' >
           <Image
-            src={user?.profilePicture}
+            src={user?.profilePicture || ""}
             width={100}
             height={100}
             className={` ${!user?.profilePicture ? " hidden " : ""} absolute mx-auto rounded-full w-[8rem] border-pink-900 border-[2px] `}
