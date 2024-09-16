@@ -7,7 +7,7 @@ services:
     restart: always
     ports:
       - "6379:6379"
-  
+
   url-shortener-service:
     build: ./url-shortener-service
     container_name: url-shortener-service
@@ -15,9 +15,16 @@ services:
     depends_on:
       - redis
     environment:
-      DATABASE_URL: mongodb+srv://abhay:abhay@cluster0.qcmys.mongodb.net/shortener?retryWrites=true&w=majority&appName=Cluster0
-      REDIS_URL: redis://redis:6379
-  
+      REDIS_URL: ${REDIS_URL}
+      DATABASE_URL: ${DATABASE_URL}
+      FRONTEND_URL: ${FRONTEND_URL}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      SESSION_SECRET: ${SESSION_SECRET}
+      GUEST_ID: ${GUEST_ID}
+
   url-redirection-service:
     build: ./url-redirection-service
     container_name: url-redirection-service
@@ -25,9 +32,10 @@ services:
     depends_on:
       - redis
     environment:
-      DATABASE_URL: mongodb+srv://abhay:abhay@cluster0.qcmys.mongodb.net/shortener?retryWrites=true&w=majority&appName=Cluster0
-      REDIS_URL: redis://redis:6379
-    
+      REDIS_URL: ${REDIS_URL}
+      DATABASE_URL: ${DATABASE_URL}
+      FRONTEND_URL: ${FRONTEND_URL}
+
   nginx:
     build: ./nginx
     container_name: nginx
