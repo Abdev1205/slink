@@ -25,14 +25,14 @@ const UrlCards = ({ data, setUpdateUrlId = () => { }, setShowUpdateModal = () =>
   return (
     <div className=' flex flex-col gap-[.5rem] justify-between border-2 border-[#181E29] bg-[#0e131d] p-[1.2rem] rounded-md md_phone:min-w-[20rem] lg_tab:w-[22rem] lg:w-[25rem] md_phone:w-[20rem] w-[100%]   ' >
       <div className='flex items-center justify-between gap-[.4rem] mx-[.3rem] ' >
-        <Link href={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/${data.shortenedUrl}`} className="flex gap-[.3rem] items-center text-white/50 hover:underline underline-offset-3 decoration-pink-500  min-w-[10rem] ">
+        <Link href={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/redirect/${data.shortenedUrl}`} className="flex gap-[.3rem] items-center text-white/50 hover:underline underline-offset-3 decoration-pink-500  min-w-[10rem] ">
           <GradientLinkIcon className=" w-[1rem] " />
           <span className='underline hero-heading underline-offset-1 line-clamp-1 ' >{`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/${data.shortenedUrl}`}</span>
         </Link>
 
         <div className='relative flex ' >
           <div onClick={() => {
-            let copiedUrl = `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/${data.shortenedUrl}`;
+            let copiedUrl = `${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/api/redirect/${data.shortenedUrl}`;
             copyToClipboard(copiedUrl, data._id);
           }} className=' text-[#d5e3ff67] bg-[#232a37] hover:text-black hover:bg-white active:scale-[.9] cursor-pointer duration-300  rounded-full flex size-[1.9rem] justify-center items-center ' >
             <MdOutlineContentCopy />
@@ -46,7 +46,7 @@ const UrlCards = ({ data, setUpdateUrlId = () => { }, setShowUpdateModal = () =>
 
       </div>
       <div className='flex items-center justify-between mx-[.3rem] ' >
-        <Link href={`${process.env.NEXT_PUBLIC_FRONTEND_BASE_URL}/${data.originalUrl}`} className="flex gap-[.3rem] items-center text-white/25 hover:underline underline-offset-3 min-w-[10rem]  ">
+        <Link href={`${data.originalUrl}`} className="flex gap-[.3rem] items-center text-white/25 hover:underline underline-offset-3 min-w-[10rem]  ">
           <LuExternalLink className="" />
           <span className=' line-clamp-1' >{`${data.originalUrl}`}</span>
         </Link>

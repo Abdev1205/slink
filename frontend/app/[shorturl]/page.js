@@ -13,7 +13,7 @@ const ShortUrlPage = ({ params }) => {
 
   const redirectToLongUrl = async () => {
     const { shorturl } = params
-    window.location.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${shorturl}`
+    window.location.href = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/redirect/${shorturl}`
   }
 
   useEffect(() => {
@@ -78,7 +78,6 @@ const ShortUrlPage = ({ params }) => {
                 className='w-[20rem]'
               />
               <p className=' font-openSans text-[1.3rem] text-white/75  '>{error}</p>
-              {/* Optionally add a button to redirect the user to a different page */}
               <PrimaryButton text='Go to Home' exec={() => router.push('/')} styles=' text-white ' />
             </div>
           </div>
