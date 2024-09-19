@@ -15,10 +15,11 @@ const app = express();
 // adding middleware
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://slink-nginx.onrender.com", "http://slink-nginx.onrender.com"],
-    // origin: "*",
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    origin: "https://slink-eta.vercel.app", // Allow only your frontend
+    credentials: true,               // Allow cookies and credentials
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these methods
+    allowedHeaders: ['Authorization', 'Content-Type', 'Accept', 'Cache-Control', 'DNT', 'If-Modified-Since', 'Keep-Alive', 'Origin', 'User-Agent', 'X-Requested-With', 'company-code'],
+    exposedHeaders: ['Content-Length', 'Content-Range'],
   })
 );
 app.use(express.json());

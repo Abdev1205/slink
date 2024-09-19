@@ -11,11 +11,13 @@ const parseDeviceType = (userAgent) => {
 
 export const redirectUrl = async (req, res, next) => {
   const { shortUrl } = req.params;
+  console.log("shortUrl :", shortUrl);
   const userAgent = req.headers['user-agent']; // Get the User-Agent from the request
   const deviceType = userAgent.includes("Mobi") ? "mobile" : "desktop"; // Default to mobile/desktop based on userAgent
 
   // checking in cache
   let longUrl = await redis.get(shortUrl);
+  console.log("long url in cache", longUrl)
   if (longUrl) {
     // Incrementing visit count in Redis
     await redis.incr(`visitCount:${shortUrl}`);
@@ -32,8 +34,10 @@ export const redirectUrl = async (req, res, next) => {
       const errorType = url.status === 'inactive' ? 'URLInactive' : 'URLExpired';
       return res.redirect(`${process.env.FRONTEND_URL}/${shortUrl}?error=${errorType}`);
     }
+    console.log("url data ", url);
     if (url && url?.originalUrl) {
       longUrl = url?.originalUrl;
+      console.log("long url from url data")
 
       // Cache the long URL and increment the visit count
       redis.setex(shortUrl, 60 * 60 * 24, longUrl); // Cache for 24 hours

@@ -14,13 +14,16 @@ const app = express();
 // adding middleware
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    credentials: true,
+    origin: "https://slink-eta.vercel.app", // Allow only your frontend
+    credentials: true,               // Allow cookies and credentials
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Allow these methods
+    allowedHeaders: ['Authorization', 'Content-Type', 'Accept', 'Cache-Control', 'DNT', 'If-Modified-Since', 'Keep-Alive', 'Origin', 'User-Agent', 'X-Requested-With', 'company-code'],
+    exposedHeaders: ['Content-Length', 'Content-Range'],
   })
 );
 app.use(cookieParser());
 app.use(express.json());
-app.use('/', urlRoutes);
+app.use('/api/redirect', urlRoutes);
 
 // console.log(process.env.Frontend_URL)
 
@@ -36,8 +39,8 @@ app.listen(PORT, () => {
 const databaseConnection = async () => {
   try {
     await connectDb(process.env.DATABASE_URL);
-    app.get("/api/shorten", (req, res) => {
-      res.send("Hi Welcome to shorten service ")
+    app.get("/api/redirect", (req, res) => {
+      res.send("Hi Welcome to redirect service ")
     })
   } catch (error) {
     console.log(error);
