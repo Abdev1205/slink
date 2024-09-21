@@ -45,10 +45,10 @@ const ShareLink = ({ visible, onClose = () => { }, callback = () => { }, focusMo
         </div>
         <div className=' bg-[#181E29] w-[calc(100%-.06rem)]   h-[calc(100%-.1rem)] rounded-md px-[2.5rem] py-[2.5rem] flex flex-col items-center justify-center gap-[2.5rem] ' >
           <div className=' relative  flex justify-between h-[3rem] w-[100%] px-[.3rem] ' >
-            <div className=' bg-[#8C8C9A1F] flex items-center  text-white opacity-55 rounded-full  px-[1rem] h-full w-full pr-[6rem] ' >
+            <div className=' bg-[#8C8C9A1F] flex items-center line-clamp-1 text-nowrap z-[1] text-white opacity-55 rounded-full  px-[1rem] h-full w-full pr-[6rem] ' >
               {shareLink}
             </div>
-            <button onClick={copyToClipboard} className=' active:scale-95 duration-300 primary-button-bg text-white absolute right-[4px] flex justify-center items-center w-[3rem] h-[100%] rounded-full  ' >
+            <button onClick={copyToClipboard} className=' z-[3] active:scale-95 duration-300 primary-button-bg text-white absolute right-[4px] flex justify-center items-center w-[3rem] h-[100%] rounded-full  ' >
               <MdOutlineContentCopy className='w-[1.2rem] h-[1.5rem] text-white ' />
             </button>
             <div className='absolute text-white text-opacity-[.7] right-[1rem] top-[3.5rem] text-[.7rem] ' >
